@@ -1,0 +1,31 @@
+# Shell
+#Mac下CSV中文乱码问题解决方法 
+
+1）首先打开Mac下自带的“Automator”
+
+2）点击左下角的“新建文稿”按钮。
+
+3）选择服务类型
+
+4）创建Shell脚本
+在左上角的输入框中输入“Shell”，看到“运行Shell脚本”这一项
+将“运行Shell脚本”这一项用鼠标拖拽到右边的空白区域，松开鼠标就能看到如下图所示的界面
+“服务”收到选定的，这一项选择“文稿”
+位于，这一项选择“Finder.app”
+Shell，这一项选择“/bin/bash”
+传递输入，这一项选择“作为自变量”
+文本框中输入如下代码：
+for f in "$@"; do
+    if [ -f "$f" ]; then
+        iconv -s -c -f UTF8 -t GBK "$f" > /tmp/iconv.utf8.gbk.tmp
+        mv /tmp/iconv.utf8.gbk.tmp "$f"
+    fi
+done
+
+
+5）点击菜单“文件”-“保存”，为服务取一个名字，例如“CSV文件编码转换
+
+
+6）关闭“Automator”。在Finder中找到之前的“users.csv”，右击鼠标，就能看到右击菜单中多出了一项“CSV文件编码转换”
+
+7）点击这一项，等待数秒（右上角会出现一个小齿轮，并快速消失），再用Excel重新打开，就会看到转换好的
